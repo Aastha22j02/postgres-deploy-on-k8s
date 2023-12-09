@@ -1,1 +1,48 @@
-#
+before_script:
+- export KUBECONFIG=kubeconfig.yaml
+- echo "$KUBECONFIG">>config
+- mv config ~/.kube/
+#- echo "$rancherconf" > config
+#- mv config ~/.kube/     #>config
+
+
+stages:
+- deploy
+- destroy
+
+deploy:
+    stage: deploy
+    
+       
+    script:
+        - kubectl apply -f /namespace.yaml
+        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
+        
+        - kubectl get pods --namespace=dbaas
+        - kubectl get services --namespace=dbaas
+        
+
+    tags:
+        - docker
+    when: manual
+
+delete:
+    stage: destroy
+    script:
+        - kubectl get pods -n dbaas 
+        - kubectl delete deployment adservice --namespace=dbaas
+        - kubectl delete deployment cartservice --namespace=dbaas
+        - kubectl delete deployment checkoutservice --namespace=dbaas
+        - kubectl delete deployment currencyservice --namespace=dbaas
+        - kubectl delete deployment emailservice --namespace=dbaas
+        
+        
+        - kubectl delete --all svc --namespace dbaas
+        - kubectl delete namespace dbaas
+   
+    tags:
+        - docker
+    when: manual
