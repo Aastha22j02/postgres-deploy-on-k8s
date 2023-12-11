@@ -3,8 +3,6 @@ before_script:
 - echo "$KUBECONFIG" >> config
 - mkdir -p ~/.kube/  # Ensure the directory exists
 - mv config ~/.kube/
-- apt-get update -qy  # Update package index (for Debian/Ubuntu-based images)
-- apt-get install -y kubectl  # Install kubectl
 
 
 
@@ -17,6 +15,7 @@ deploy:
     
        
     script:
+        - echo "name"
         # - kubectl apply -f /namespace.yaml
         - kubectl apply -f postgres-deploy/db-persistent-volume.yaml -n dbaas
         - kubectl apply -f postgres-deploy/db-volume-claim.yaml -n dbaas
@@ -26,6 +25,7 @@ deploy:
         
         - kubectl get pods --namespace=dbaas
         - kubectl get services --namespace=dbaas
+        - echo "all command"
         
 
     tags:
