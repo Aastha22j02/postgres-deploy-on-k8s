@@ -3,6 +3,8 @@ before_script:
 - echo "$KUBECONFIG" >> config
 - mkdir -p ~/.kube/  # Ensure the directory exists
 - mv config ~/.kube/
+- apt-get update -qy  # Update package index (for Debian/Ubuntu-based images)
+- apt-get install -y kubectl  # Install kubectl
 
 
 
