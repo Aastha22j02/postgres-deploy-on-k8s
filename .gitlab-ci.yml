@@ -1,9 +1,9 @@
 before_script:
 - export KUBECONFIG=kubeconfig.yaml
-- echo "$KUBECONFIG">>config
+- echo "$KUBECONFIG" >> config
+- mkdir -p ~/.kube/  # Ensure the directory exists
 - mv config ~/.kube/
-#- echo "$rancherconf" > config
-#- mv config ~/.kube/     #>config
+
 
 
 stages:
