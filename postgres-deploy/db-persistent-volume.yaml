@@ -9,7 +9,7 @@ metadata:
     type: local
     app: postgresdb
 spec:
-  storageClassName: manual
+  storageClassName: longhorn
   capacity:
     # PV Storage capacity
     storage: 8Gi
