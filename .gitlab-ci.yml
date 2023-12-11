@@ -8,41 +8,42 @@ before_script:
 
 stages:
 - deploy
-- destroy
+# - destroy
 
 deploy:
     stage: deploy
     
        
     script:
-        - kubectl apply -f /namespace.yaml
+        # - kubectl apply -f /namespace.yaml
+        - kubectl apply -f postgres-deploy/db-persistent-volume.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-volume-claim.yaml -n dbaas
         - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
-        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
-        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
-        - kubectl apply -f postgres-deploy/db-configmap.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-deployment.yaml -n dbaas
+        - kubectl apply -f postgres-deploy/db-service.yaml -n dbaas
         
         - kubectl get pods --namespace=dbaas
         - kubectl get services --namespace=dbaas
         
 
     tags:
-        - docker
+        - shell
     when: manual
 
-delete:
-    stage: destroy
-    script:
-        - kubectl get pods -n dbaas 
-        - kubectl delete deployment adservice --namespace=dbaas
-        - kubectl delete deployment cartservice --namespace=dbaas
-        - kubectl delete deployment checkoutservice --namespace=dbaas
-        - kubectl delete deployment currencyservice --namespace=dbaas
-        - kubectl delete deployment emailservice --namespace=dbaas
+# delete:
+#     stage: destroy
+#     script:
+#         - kubectl get pods -n dbaas 
+#         - kubectl delete deployment adservice --namespace=dbaas
+#         - kubectl delete deployment cartservice --namespace=dbaas
+#         - kubectl delete deployment checkoutservice --namespace=dbaas
+#         - kubectl delete deployment currencyservice --namespace=dbaas
+#         - kubectl delete deployment emailservice --namespace=dbaas
         
         
-        - kubectl delete --all svc --namespace dbaas
-        - kubectl delete namespace dbaas
+#         - kubectl delete --all svc --namespace dbaas
+#         - kubectl delete namespace dbaas
    
-    tags:
-        - docker
-    when: manual
+#     tags:
+#         - docker
+#     when: manual
